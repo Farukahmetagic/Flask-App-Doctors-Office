@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        <div>
+            <h1>Home</h1>
+        </div>
+        <div>
+            <a class="btn btn-primary" href="{{ url_for('rezervacija_page') }}">Rezervisi Termin</a>
+        </div>
+        {% if current_user.doctor == True %}
+        <div class="container sm bg-success rounded mt-3">
+            <div>
+                <h2>Rezervisani Termini Pacijenata: </h2>
+            </div>
+            <br>
+            {% for appointments in user_appointments %}
+            <div class="mt-2">
+                    <h3>Termin: {{ appointments.termin }}</h3>
+                    <h3>Pacijent: {{ appointments.ime }}</h3>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+            <div class="container sm bg-success rounded mt-3">
+                <div>
+                    <h2>Rezervisani Termini: </h2>
+                </div>
+                <br>
+                {% for appointments in user_appointments %}
+                <div class="mt-2">
+                    <form method="POST" class="d-flex justify-content-around">
+                        <h3>{{ appointments.termin }}</h3>
+                        <input type="hidden" name="termin_delete" id="termin_delete" value="{{ appointments.id }}">
+                        {{ form.submit(class="btn btn-primary") }}
+                    </form>
+                </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
